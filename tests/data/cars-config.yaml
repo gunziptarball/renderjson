@@ -1,0 +1,5 @@
+title: The Cars in My Life
+type: object
+required: [ "Make", "Model", "Year", "Comment", "Cool Car", "Year Sold" ]
+properties:
+  "Cool Car": { type: boolean }
