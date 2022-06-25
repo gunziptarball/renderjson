@@ -13,4 +13,4 @@ pretty: pre-commit
 	pre-commit run --all-files; echo
 
 test: pretty
-	poetry run test
+	poetry run pytest
