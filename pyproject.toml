@@ -21,14 +21,44 @@ tabulate = "^0.8.10"
 mypy = "^0.961"
 PyYAML = "^6.0"
 PyHamcrest = "^2.0.3"
+types-Jinja2 = "^2.11.9"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-addopts = ["--tb=short", "--cov", "renderjson", "--cov-report", "term-missing", "--cov-fail-under", "100"]
-testpaths = ["tests"]
+addopts = ["--tb=short", "--cov", "renderjson", "--cov-report", "term-missing", "--cov-fail-under", "100", "--doctest-modules"]
+testpaths = ["tests", "renderjson"]
+
+[tool.mypy]
+files = ["renderjson"]
+
+[[tool.mypy.overrides]]
+module = "hvac"
+ignore_missing_imports = true
+
+
+[tool.coverage.report]
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+
+    # Don't complain about abstract methods, they aren't run:
+    "@(abc\\.)?abstractmethod"
+]
 
 [tool.poetry.scripts]
 renderjson = "renderjson.main:app"

@@ -70,20 +70,12 @@ Noice!
 """
 import typing as t
 
-JSONFriendly = t.Union[str, int, bool, None, t.List["_Simple"], t.Dict[str, "_Simple"]]
-
-_TYPE_MAPPING: t.Dict[str, t.Type] = {
-    "string": str,
-    "number": int,
-    "boolean": bool,
-    "object": dict,
-    "array": list,
-}
-
 _TRU_VALUES = ("Yes", "yes", "True", "true", "1", "Y")
 
 
-def transform(source_data: JSONFriendly, mallow_config: JSONFriendly) -> JSONFriendly:
+def transform(
+    source_data: t.Dict[str, t.Any], mallow_config: t.Dict[str, t.Any]
+) -> t.Dict[str, t.Any]:
     class Properties(t.TypedDict):
         type: str
 
@@ -91,7 +83,7 @@ def transform(source_data: JSONFriendly, mallow_config: JSONFriendly) -> JSONFri
     if mallow_config["type"] != "object" or not isinstance(source_data, dict):
         raise NotImplementedError("only object supported right now")
     properties: t.Dict[str, Properties] = mallow_config["properties"]
-    result: t.Dict[str, JSONFriendly] = {}
+    result: t.Dict[str, t.Any] = {}
     for original_key, source_value in source_data.items():
 
         target_type_name = properties.get(original_key, {"type": "string"})["type"]
